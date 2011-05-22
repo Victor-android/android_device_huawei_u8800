@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ # Copyright (C) 2010, T-Mobile USA, Inc.
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+ # You may obtain a copy of the License at
+ #
+ #      http://www.apache.org/licenses/LICENSE-2.0
+ #
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">主题更换</string>
+    <string name="app_title">主题更换</string>
+    <string name="apply">更换</string>
+
+    <string name="theme_change_dialog_title">更换...</string>
+    <string name="switching_to_theme">更换到 <xliff:g id="theme">%s</xliff:g>...</string>
+    <string name="item_count">%1$d/%2$d</string>
+
+    <string name="dialog_theme_error_title">更换主题出错</string>
+    <string name="dialog_missing_host_density_msg">对不起, 这个主题没有适合你屏幕分辨率的资源</string>
+    <string name="dialog_missing_theme_package_scope_msg">这个主题更换可能会出错，如果出错请报告此事件给主题的作者</string>
+    <string name="dialog_apply_anyway_btn">仍然更换</string>
+    <string name="dialog_bummer_btn">放弃</string>
+</resources>
