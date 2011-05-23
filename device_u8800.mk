@@ -52,6 +52,7 @@ PRODUCT_PACKAGES += \
     gralloc.msm7x30 \
     overlay.default \
     gps.u8800 \
+    sensors.u8800 \
     libOmxCore \
     libOmxVenc \
     libOmxVdec
@@ -246,9 +247,8 @@ PRODUCT_COPY_FILES += \
 
 # sensors
 PRODUCT_COPY_FILES += \
-    device/huawei/u8800/system/lib/hw/sensors.default.so:/system/lib/hw/sensors.default.so \
     device/huawei/u8800/system/lib/hw/lights.msm7k.so:/system/lib/hw/lights.msm7k.so \
-
+#    device/huawei/u8800/system/lib/hw/sensors.default.so:/system/lib/hw/sensors.default.so \
 
 PRODUCT_PROPERTY_OVERRIDES := \
     keyguard.no_require_sim=true \
