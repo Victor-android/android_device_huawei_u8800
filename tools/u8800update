@@ -1,0 +1,32 @@
+#!/bin/bash
+
+export LOC="$PWD/out/target/product/u8800"
+
+mkdir -p "$LOC"/temp
+
+cd "$LOC"/temp
+echo "extract update.zip"
+unzip -o -qq  "$LOC"/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$LOGNAME.zip
+mkdir -p cust/image
+cp boot.img cust/image/boot.img
+
+echo "Making U8800 Compatible Update script"
+cd "$LOC"
+cd "$LOC"/temp/META-INF/com/google/android
+echo 'mount("vfat", "EMMC", "/dev/block/mmcblk0p1", "/cust");' >> temp
+echo 'package_extract_dir("cust", "/cust");' >> temp
+grep -vw assert  updater-script >> temp
+rm -rf updater-script
+grep -vw boot.img  temp > updater-script
+rm -rf temp
+echo Zipping Package
+cd "$LOC"/temp
+rm -rf "$LOC"/temp/boot.img
+rm -rf "$LOC"/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$LOGNAME.zip
+zip -9yr "$LOC"/$TARGET_PRODUCT-ota-$TARGET_BUILD_VARIANT.$LOGNAME.zip * > /dev/null
+cd "$LOC"
+
+echo Cleanup...
+rm -rf "$LOC"/temp
+
+echo done

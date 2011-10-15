@@ -1,0 +1,6 @@
+#
+# system.prop for u8800
+#
+ro.confg.hw_appsbootversion=U8800VCM7_APPSBOOT
+ro.confg.hw_appversion=U8800VCM7_KERNEL
+ro.confg.hw_appfsversion=U8800VCM7_SYSIMG

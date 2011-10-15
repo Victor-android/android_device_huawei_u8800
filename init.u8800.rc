@@ -1,0 +1,191 @@
+
+on boot
+    mount debugfs /sys/kernel/debug /sys/kernel/debug
+
+on fs
+    mkdir /system
+    mkdir /data 0771 system system
+    mkdir /cache 0770 system cache
+    mkdir /cust
+    mount ext3 /dev/block/mmcblk0p12 /system wait ro barrier=1
+    mount ext3 /dev/block/mmcblk0p13 /data wait noatime nosuid nodev barrier=1 #noauto_da_alloc
+    start kmsglogcat
+    mount ext3 /dev/block/mmcblk0p6 /cache wait noatime nosuid nodev barrier=1
+    mount vfat /dev/block/mmcblk0p1 /cust wait rw
+
+on boot
+
+    chmod 0666 /dev/light
+    chmod 0666 /dev/proximity
+    chmod 0777 /sys/kernel/logger/log_main/enable
+    chmod 0777 /sys/kernel/logger/log_events/enable
+    chmod 0777 /sys/kernel/logger/log_radio/enable
+    chmod 0777 /sys/kernel/logger/log_main/priority
+    chmod 0777 /sys/kernel/logger/log_events/priority
+    chmod 0777 /sys/kernel/logger/log_radio/priority
+    
+    chmod 0666 /dev/accel
+    chmod 0666 /dev/graphics/fb1
+    chmod 0666 /dev/compass_aot
+    chmod 0666 /dev/compass_dev
+    chmod 666 /dev/input/event1
+
+    mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
+    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+    chown bluetooth bluetooth /proc/bluetooth/clock/proto
+    chown system system /sys/module/sco/parameters/disable_esco
+    chmod 0660 /sys/module/bluetooth_power/parameters/power
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /proc/bluetooth/sleep/proto
+    chmod 0660 /proc/bluetooth/clock/proto
+    chown bluetooth bluetooth /dev/ttyHS0
+    chmod 0660 /dev/ttyHS0
+    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
+    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
+
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+    symlink /persist/qcom_wlan_nv.bin /etc/firmware/wlan/qcom_wlan_nv.bin
+    
+    chmod 0660 /data/hostapd/hostapd.conf
+
+    mkdir /data/wpstiles/ 0777 shell
+    mkdir /etc/wiper 0777 location qcom_oncrpc
+
+    mkdir /data/bugreports
+
+# For qmuxd socket
+    mkdir /data/radio 0770 radio radio
+    chown radio radio 0770 /data/radio
+
+# SD card polling
+    chown system system /sys/module/g_android/parameters/product_id
+    chown system system /sys/devices/platform/msm_sdcc.1/polling
+    chown system system /sys/devices/platform/msm_sdcc.2/polling
+    chown system system /sys/devices/platform/msm_sdcc.3/polling
+    chown system system /sys/devices/platform/msm_sdcc.4/polling
+    chown system system /sys/devices/platform/android_usb/composition
+    chown system system /sys/devices/platform/android_usb/remote_wakeup
+
+
+# Enable MASS storage on SDCARD
+    write /sys/devices/platform/msm_hsusb/gadget/lun0/file /dev/block/mmcblk1p1 
+    write /sys/bus/platform/drivers/msm_sdcc/msm_sdcc.4/polling 1
+
+on property:init.svc.wpa_supplicant=stopped
+    stop dhcpcd
+
+on property:init.svc.bluetoothd=running
+    write /sys/devices/virtual/bluetooth/hci0/idle_timeout 7000
+    start btwlancoex
+
+on property:init.svc.bluetoothd=stopped
+    stop btwlancoex
+
+service hci_qcomm_init /system/bin/log -t qcom-bluetooth -p i "hci_qcomm_init service requested"
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p10 /dev/block/mmcblk0p11
+    user root
+
+service oem_rpc_svc /system/bin/oem_rpc_svc
+    oneshot
+    
+service hw_diag_app /system/bin/hw_diag_app
+    oneshot
+    
+service compassd /system/bin/compassd
+    disabled
+    oneshot
+
+service rmt_oeminfo /system/bin/rmt_oeminfo
+    disabled
+    oneshot    
+
+service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
+    user bluetooth
+    group qcom_oncrpc bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
+
+service qmuxd /system/bin/qmuxd
+
+service btwlancoex /system/bin/sh /system/etc/init.qcom.coex.sh
+    user root
+    group qcom_oncrpc bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant -Dwext -W -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+    user root
+    group wifi inet
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -BKL
+    disabled
+    oneshot
+
+service wiperiface /system/bin/wiperiface
+    user location
+    group qcom_oncrpc
+    oneshot
+
+service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
+    user system
+    group system
+    disabled
+    oneshot
+
+service qcom-sh /system/bin/sh /init.qcom.sh
+    user root
+    oneshot
+
+service BtWiRfServer /system/xbin/RfTest
+    user root
+    group bluetooth net_bt_admin system  
+    disabled
+    oneshot
+
+service qcom-post-boot /system/bin/sh /init.qcom.post_boot.sh
+    user root
+    disabled
+    oneshot
+
+
+service qcom-wifi /system/bin/sh /system/etc/init.qcom.wifi.sh
+    user root
+    disabled
+    oneshot
+
+service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
+    user root
+    group root
+    disabled
+    oneshot
+
+on property:init.svc.bootanim=stopped   
+    start qcom-wifi
+    
+on property:dev.bootdone=1
+    start qcom-post-boot
+
+service applogcat /system/bin/logcat -v time -r 1024 -n 8 -f /data/bugreports/applogcat-log
+    disabled
+
+
+service kmsglogcat /system/bin/kmsgcat -r 1024 -n 8 -f /data/bugreports/kmsgcat-log
+    disabled
+
