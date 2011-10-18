@@ -17,4 +17,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <add-resource type="string" name="X5_settings_title"/>
     <string name="X5_settings_title">X5 settings</string>
+    <add-resource type="string" name="ProjectMenu"/>
+    <string name="ProjectMenu">Project Menu</string>
+    <add-resource type="string" name="ProjectMenu_summary"/>
+    <string name="ProjectMenu_summary">access huawei project menu</string>
 </resources>
+
+

@@ -17,4 +17,8 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <add-resource type="string" name="X5_settings_title"/>
     <string name="X5_settings_title">U8800 设置</string>
+    <add-resource type="string" name="ProjectMenu"/>
+    <string name="ProjectMenu">工程模式</string>
+    <add-resource type="string" name="ProjectMenu_summary"/>
+    <string name="ProjectMenu_summary">进入华为工程模式</string>
 </resources>
