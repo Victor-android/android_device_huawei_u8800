@@ -47,6 +47,7 @@ PRODUCT_PACKAGES += \
     overlay.default \
     gps.u8800 \
     lights.u8800 \
+    gralloc.u8800 \
     libOmxCore \
     libOmxVidEnc \
     Torch \
@@ -60,6 +61,14 @@ DISABLE_DEXPREOPT := false
 
 PRODUCT_COPY_FILES += \
     device/huawei/u8800/qwerty.kl:system/usr/keylayout/qwerty.kl
+
+# Init
+PRODUCT_COPY_FILES += \
+    device/huawei/u8800/init.u8800.rc:root/init.u8800.rc \
+    device/huawei/u8800/init.rc:root/init.rc \
+    device/huawei/u8800/init:root/init \
+    device/huawei/u8800/initlogo.rle:root/initlogo.rle \
+    device/huawei/u8800/prebuilt/restart-ms:root/sbin/restart-ms \
 
 # fstab
 PRODUCT_COPY_FILES += \
@@ -75,15 +84,6 @@ PRODUCT_COPY_FILES += \
     device/huawei/u8800/ueventd.huawei.rc:root/ueventd.huawei.rc \
     device/huawei/u8800/init.qcom.post_boot.sh:root/init.qcom.post_boot.sh \
     device/huawei/u8800/init.qcom.sh:root/init.qcom.sh
-
-PRODUCT_COPY_FILES += \
-    device/huawei/u8800/prebuilt/charge:recovery/root/sbin/charge \
-    device/huawei/u8800/recovery/level0.png:recovery/root/res/level0.png \
-    device/huawei/u8800/recovery/level1.png:recovery/root/res/level1.png \
-    device/huawei/u8800/recovery/level2.png:recovery/root/res/level2.png \
-    device/huawei/u8800/recovery/level3.png:recovery/root/res/level3.png \
-    device/huawei/u8800/recovery/level4.png:recovery/root/res/level4.png \
-    device/huawei/u8800/recovery/level5.png:recovery/root/res/level5.png
 
 PRODUCT_COPY_FILES += \
     device/huawei/u8800/init.goldfish.sh:system/etc/init.goldfish.sh \
@@ -176,6 +176,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.config.PicMaxSize=5mp \
     ro.config.hw_temperature_warn=true \
     ro.config.hw_clocksetting=0 \
+    mot.proximity.delay=150 \
     ro.additionalmounts=/HWUserData \
     ro.vold.switchablepair=/mnt/sdcard,/HWUserData \
     ro.vold.umsdirtyratio=20 \

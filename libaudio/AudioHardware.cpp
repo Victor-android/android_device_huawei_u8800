@@ -52,7 +52,6 @@
 
 #define AMRNB_FRAME_SIZE 32
 
-
 namespace android {
 
 Mutex   mDeviceSwitchLock;
@@ -92,8 +91,8 @@ static uint32_t DEVICE_HEADSET_TX = 5; //headset_mono_tx
 static uint32_t DEVICE_FMRADIO_HANDSET_RX= 6; //fmradio_handset_rx
 static uint32_t DEVICE_FMRADIO_HEADSET_RX= 7; //fmradio_headset_rx
 static uint32_t DEVICE_FMRADIO_SPEAKER_RX= 8; //fmradio_speaker_rx
-static uint32_t DEVICE_DUALMIC_HANDSET_TX = 9; //handset_dual_mic_broadside_tx
-static uint32_t DEVICE_DUALMIC_SPEAKER_TX = 10; //speaker_dual_mic_broadside_tx
+static uint32_t DEVICE_DUALMIC_HANDSET_TX = 9; //handset_dual_mic_endfire_tx
+static uint32_t DEVICE_DUALMIC_SPEAKER_TX = 10; //speaker_dual_mic_endfire_tx
 static uint32_t DEVICE_TTY_HEADSET_MONO_RX = 11; //tty_headset_mono_rx
 static uint32_t DEVICE_TTY_HEADSET_MONO_TX = 12; //tty_headset_mono_tx
 static uint32_t DEVICE_BT_SCO_RX = 17; //bt_sco_rx
@@ -149,10 +148,8 @@ enum FM_STATE {
 
 FM_STATE fmState = FM_INVALID;
 static uint32_t fmDevice = INVALID_DEVICE;
-#define DEV_ID(X) device_list[X].dev_id
 
-static int
-read_int(char const* path)
+static int read_int(char const* path)
 {
     int fd;
     static int already_warned = 0;
@@ -161,20 +158,20 @@ read_int(char const* path)
     fd = open(path, O_RDONLY);
     if (fd >= 0) {
         char buffer[20];
-	int amt = read(fd, buffer, 20);
+        int amt = read(fd, buffer, 20);
         sscanf(buffer, "%d", &value);
-	LOGI("read %d from %s",value,path);
         close(fd);
         return amt == -1 ? -errno : value;
     } else {
         if (already_warned == 0) {
-            LOGE("read_int failed to open %s\n", path);
+            LOGE("read_int falied to open %s\n", path);
             already_warned = 1;
-        }
-        return -errno;
+       }
+    return -errno;
     }
 }
 
+#define DEV_ID(X) device_list[X].dev_id
 void addToTable(int decoder_id,int device_id,int device_id_tx,int stream_type,bool active) {
     Routing_table* temp_ptr;
     Mutex::Autolock lock(mRoutingTableLock);
@@ -830,6 +827,8 @@ size_t AudioHardware::getInputBufferSize(uint32_t sampleRate, int format, int ch
 
     if (format == AudioSystem::AMR_NB)
        return 320*channelCount;
+    if (format == AudioSystem::AAC)
+       return 2048;
     else
        return 2048*channelCount;
 }
@@ -838,7 +837,7 @@ static status_t set_volume_rpc(uint32_t device,
                                uint32_t method,
                                uint32_t volume)
 {
-    LOGV("set_volume_rpc(%d, %d, %d)\n", device, method, volume);
+//    LOGV("set_volume_rpc(%d, %d, %d)\n", device, method, volume);
 
     if (device == -1UL) return NO_ERROR;
      return NO_ERROR;
@@ -854,8 +853,8 @@ status_t AudioHardware::setVoiceVolume(float v)
         v = 1.0;
     }
 
-	int factor = read_int("/system/etc/volumefactor.txt");
-	if (factor<0) factor = 120;
+    int factor = read_int("/system/etc/volumefactor.txt");
+    if(factor<0) factor = 120;
 
     int vol = lrint(v * factor);
     LOGD("setVoiceVolume(%f)\n", v);
@@ -2200,6 +2199,9 @@ ssize_t AudioHardware::AudioStreamInMSM72xx::read( void* buffer, ssize_t bytes)
                       mFirstread = true;
                       break;
                    }
+                }
+                else {
+                    dataPtr++;
                 }
 
             } else {

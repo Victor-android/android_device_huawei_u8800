@@ -64,17 +64,17 @@ BOARD_USES_QCOM_GPS := true
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := u8800
 BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
 
-TARGET_USES_OLD_LIBSENSORS_HAL:=true
-TARGET_SENSORS_NO_OPEN_CHECK:=true
+#TARGET_USES_OLD_LIBSENSORS_HAL:=true
+#TARGET_SENSORS_NO_OPEN_CHECK:=true
 
-BOARD_KERNEL_CMDLINE := console=ttyDCC0 androidboot.hardware=u8800 g_android.product_id=0x1038 g_android.serial_number=U8800
+BOARD_KERNEL_CMDLINE := console=ttyDCC0 androidboot.hardware=u8800
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_KERNEL_PAGESIZE := 4096
 
 TARGET_PROVIDES_LIBRIL := true
 TARGET_PROVIDES_LIBAUDIO := true
 
-TARGET_CUSTOM_RELEASETOOL := device/huawei/u8800/tools/u8800update
+TARGET_CUSTOM_RELEASETOOL := device/huawei/u8800/tools/releasetools
 
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun
@@ -94,30 +94,37 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_CUSTOM_GRAPHICS:= ../../../device/huawei/u8800/graphics.c
 BOARD_SDCARD_DEVICE_INTERNAL := /dev/block/mmcblk0p14
 BOARD_SDEXT_DEVICE := /dev/block/mmcblk1p2
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_USES_MMCUTILS := true
-#BOARD_HAS_NO_SELECT_BUTTON := true
 
 BOARD_HAS_NO_MISC_PARTITION := true
 
 
-# Wifi related defines--by DZO
+# Wifi related defines--by stockwell
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-WPA_SUPPLICANT_VERSION      := VER_0_6_X
-BOARD_WLAN_DEVICE           := libra
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/libra.ko"
-WIFI_DRIVER_MODULE_NAME     := "libra"
-WIFI_SDIO_IF_DRIVER_MODULE_PATH  := "/system/lib/modules/librasdioif.ko"
-WIFI_SDIO_IF_DRIVER_MODULE_NAME := "librasdioif"
+WPA_SUPPLICANT_VERSION := VER_0_6_X
+BOARD_WLAN_DEVICE := libra
+WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/librasdioif.ko"
+WIFI_DRIVER_MODULE_NAME := "libra"
+WIFI_EXT_MODULE_NAME := "librasdioif"
+WIFI_FIRMWARE_LOADER := load_libra
+WIFI_CUSTOM_LOADER          := load_wifi
 
+# USB Tethering
+BOARD_CUSTOM_USB_CONTROLLER := ../../device/huawei/u8800/UsbController.cpp
+
+# Recovery
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_USES_MMCUTILS := true
+TARGET_PREBUILT_RECOVERY_KERNEL := device/huawei/u8800/recovery_kernel
 # add for chinese recovery by geno
-BOARD_USES_RECOVERY_CHINESE := false
-#TARGET_PREBUILT_RECOVERY_KERNEL := device/huawei/u8800/recovery_kernel
+BOARD_USES_RECOVERY_CHINESE := true
 ifeq ($(BOARD_USES_RECOVERY_CHINESE),true)
 BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/huawei/u8800/recovery/recovery_ui_cn.c
 else
 BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/huawei/u8800/recovery/recovery_ui_en.c
 endif
-
+BOARD_HAS_JANKY_BACKBUFFER := true
+BOARD_RECOVERY_CHARGEMODE := true
+BOARD_RECOVERY_RMT_STORAGE := true
+TARGET_RECOVERY_INITRC := device/huawei/u8800/recovery.rc
 
 

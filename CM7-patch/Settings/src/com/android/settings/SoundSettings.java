@@ -70,8 +70,6 @@ public class SoundSettings extends PreferenceActivity implements
     private static final String VALUE_VIBRATE_UNLESS_SILENT = "notsilent";
     public static final String HAPTIC_FILE = "/sys/module/synaptics_i2c_rmi_1564/parameters/vibrate";  //add
     public static final String HAPTIC_FILE1 = "/sys/module/atmel_i2c_rmi_QT602240/parameters/vibrate";  //add
-    public static final String LED_FILE = "/sys/module/RGB_led/parameters/off_when_suspended";     //add
-    public static final String LED_OFF_WHILE_ASLEEP = "led_off_while_asleep";   //add
     private CheckBoxPreference mSilent;
 
     /*
@@ -91,7 +89,7 @@ public class SoundSettings extends PreferenceActivity implements
     private CheckBoxPreference mNotificationCharging;
     private CheckBoxPreference mLockSounds;
     private CheckBoxPreference mPowerSounds;
-    private CheckBoxPreference mLedOff;
+    private CheckBoxPreference mLedOff;  //add
 
     private AudioManager mAudioManager;
 
@@ -138,10 +136,6 @@ public class SoundSettings extends PreferenceActivity implements
         mHapticFeedback.setPersistent(false);
         mHapticFeedback.setChecked(Settings.System.getInt(resolver,
                 Settings.System.HAPTIC_FEEDBACK_ENABLED, 0) != 0);
-        mLedOff = (CheckBoxPreference) findPreference(LED_OFF_WHILE_ASLEEP); //add ledoff
-//        mLedOff.setPersistent(false);
-//        mLedOff.setChecked(Settings.System.getInt(resolver,
-//                Settings.System.LED_OFF_WHILE_ASLEEP, 0) != 0);
         mLockSounds = (CheckBoxPreference) findPreference(KEY_LOCK_SOUNDS);
         mLockSounds.setPersistent(false);
         mLockSounds.setChecked(Settings.System.getInt(resolver,
@@ -211,9 +205,9 @@ public class SoundSettings extends PreferenceActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);  //add
-        mLedOff.setChecked(prefs.getBoolean(LED_OFF_WHILE_ASLEEP, true) );  //add
+
         updateState(true);
+
         IntentFilter filter = new IntentFilter(AudioManager.RINGER_MODE_CHANGED_ACTION);
         registerReceiver(mReceiver, filter);
     }
@@ -388,7 +382,7 @@ public class SoundSettings extends PreferenceActivity implements
             Settings.System.putInt(getContentResolver(),
                     Settings.System.NOTIFICATION_LIGHT_CHARGING, value ? 1 : 0);
         } else if (preference == mLedOff) {
-            writeOneLine(LED_FILE, mLedOff.isChecked() ? "1" : "0");
+            writeOneLine(LED_FILE, mLedOff.isChecked() ? "1" : "0"); //add
         }
         return true;
     }

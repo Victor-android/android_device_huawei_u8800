@@ -46,11 +46,7 @@ public class HapticReceiver extends BroadcastReceiver {
 	if(Settings.System.getInt(ctx.getContentResolver(),Settings.System.HAPTIC_FEEDBACK_ENABLED, 0)==0) {
             SoundSettings.writeOneLine(SoundSettings.HAPTIC_FILE, "0");
             SoundSettings.writeOneLine(SoundSettings.HAPTIC_FILE1, "0");
-	}
-        
-        if (!prefs.getBoolean(SoundSettings.LED_OFF_WHILE_ASLEEP,true)) {
-           SoundSettings.writeOneLine(SoundSettings.LED_FILE, "0");       
-        }
-      
+	}   
+     
      }
 }

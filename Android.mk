@@ -12,5 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+LOCAL_PATH := $(my-dir)
+ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),u8800)
+    subdir_makefiles := \
+        $(LOCAL_PATH)/libaudio/Android.mk \
+        $(LOCAL_PATH)/liblights/Android.mk \
+        $(LOCAL_PATH)/libgralloc/Android.mk \
+        $(LOCAL_PATH)/libril/Android.mk \
+        $(LOCAL_PATH)/libcamera/Android.mk \
+        $(LOCAL_PATH)/X5settings/Android.mk \
+        $(LOCAL_PATH)/recovery/rmt_storage/Android.mk \
+        $(LOCAL_PATH)/recovery/offmode/Android.mk \
+        $(LOCAL_PATH)/load_libra/Android.mk \
 
-include $(call all-named-subdir-makefiles, libaudio libcamera liblights libril X5settings)
+    include $(subdir_makefiles)
+endif

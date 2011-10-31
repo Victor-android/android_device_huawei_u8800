@@ -88,8 +88,6 @@
     <string name="battery_info_health_over_voltage" msgid="2420269351664490121">"过电压"</string>
     <string name="battery_info_health_unspecified_failure" msgid="6347021103185471590">"未知错误"</string>
     <string name="bluetooth" msgid="5549625000628014477">"蓝牙"</string>
-    <string name="bluetooth_discoverable_duration_title">可检测时间</string>
-    <string name="bluetooth_discoverable_duration_summary">设定手机蓝牙多长时间内可被检测</string>
     <string name="bluetooth_visibility" msgid="2930835434091839916">"可检测性"</string>
     <string name="bluetooth_is_discoverable" msgid="1205694503775884903">"<xliff:g id="DISCOVERABLE_TIME_PERIOD">%1$s</xliff:g> 秒内可检测到..."</string>
     <string name="bluetooth_not_discoverable" msgid="128269993123955177">"可以检测到设备"</string>
@@ -117,8 +115,13 @@
     <string name="bluetooth_permission_request" msgid="1523129741266262748">"蓝牙权限请求"</string>
     <string name="bluetooth_ask_enablement" msgid="2342558978033892004">"您手机上的某一应用程序正在请求相应权限以便打开蓝牙。是否要授予这种权限？"</string>
     <string name="bluetooth_ask_discovery" msgid="669870705606180872">"您手机上的某一应用程序正在请求相应权限以便打开蓝牙，从而使其他设备可在 <xliff:g id="TIMEOUT">%1$d</xliff:g> 秒内检测到您的手机。是否要授予这种权限？"</string>
+    <string name="bluetooth_ask_lasting_discovery" msgid="3413855805411554871">"手机上的某一应用程序正在请求相应权限，以便让其他蓝牙设备“一直可检测到”您的手机。要授予该权限吗？"</string>
     <string name="bluetooth_ask_enablement_and_discovery" msgid="7220210326619399542">"您手机上的某一应用程序正在请求相应权限以便打开蓝牙，从而使其他设备可在 <xliff:g id="TIMEOUT">%1$d</xliff:g> 秒内检测到您的手机。是否要授予这种权限？"</string>
+    <string name="bluetooth_ask_enablement_and_lasting_discovery" msgid="7471195931669103553">"手机上的某一应用程序正在请求相应权限以便打开蓝牙，从而让其他设备可检测到您的手机。要授予该权限吗？"</string>
     <string name="bluetooth_turning_on" msgid="3107102168379705771">"正在打开蓝牙…"</string>
+    <string name="bluetooth_connection_permission_request" msgid="4747918249032890077">"蓝牙连接请求"</string>
+    <string name="bluetooth_connection_notif_message" msgid="1833221950512058309">"触摸以连接到“<xliff:g id="DEVICE_NAME">%1$s</xliff:g>”"</string>
+    <string name="bluetooth_connection_dialog_text" msgid="8455427559949998023">"要连接到“<xliff:g id="DEVICE_NAME">%1$s</xliff:g>”吗？"</string>
     <string name="date_and_time" msgid="4114084177056654663">"日期和时间设置"</string>
     <string name="date_time_12_hour_sample" msgid="3259617262618020574">"下午 1:00"</string>
     <string name="date_time_24_hour_sample" msgid="8916857570746212357">"13:00"</string>
@@ -540,6 +543,7 @@
     <string name="storage_settings_summary" product="default" msgid="9176693537325988610">"卸载 SD 卡，查看可用存储设备"</string>
     <string name="status_number" msgid="5123197324870153205">"本机号码"</string>
     <string name="status_min_number" msgid="3519504522179420597">"MIN"</string>
+    <string name="status_msid_number" msgid="909010114445780530">"MSID"</string>
     <string name="status_prl_version" msgid="8499039751817386529">"PRL 版本"</string>
     <string name="status_meid_number" msgid="1751442889111731088">"MEID"</string>
     <string name="status_network_type" msgid="3279383550222116235">"手机网络类型"</string>
@@ -822,13 +826,11 @@
     <string name="cached" msgid="1059590879740175019">"缓存的后台进程"</string>
     <string name="no_running_services" msgid="2059536495597645347">"当前未运行任何服务。"</string>
     <string name="service_started_by_app" msgid="6575184738671598131">"已由应用程序启动。"</string>
-    <!-- no translation found for service_client_name (4037193625611815517) -->
-    <skip />
+    <string name="service_client_name"><xliff:g id="client_name">%1$s</xliff:g></string>
     <string name="service_background_processes" msgid="6844156253576174488">"可用空间：<xliff:g id="MEMORY">%1$s</xliff:g>"</string>
     <string name="service_foreground_processes" msgid="7583975676795574276">"已用空间：<xliff:g id="MEMORY">%1$s</xliff:g>"</string>
     <string name="memory" msgid="6609961111091483458">"RAM"</string>
-    <!-- no translation found for service_process_name (4098932168654826656) -->
-    <skip />
+    <string name="service_process_name"><xliff:g id="process">%1$s</xliff:g></string>
     <string name="running_processes_item_description_s_s" msgid="5790575965282023145">"<xliff:g id="NUMPROCESS">%1$d</xliff:g> 个进程和 <xliff:g id="NUMSERVICES">%2$d</xliff:g> 个服务"</string>
     <string name="running_processes_item_description_s_p" msgid="8019860457123222953">"<xliff:g id="NUMPROCESS">%1$d</xliff:g> 个进程和 <xliff:g id="NUMSERVICES">%2$d</xliff:g> 个服务"</string>
     <string name="running_processes_item_description_p_s" msgid="744424668287252915">"<xliff:g id="NUMPROCESS">%1$d</xliff:g> 个进程和 <xliff:g id="NUMSERVICES">%2$d</xliff:g> 个服务"</string>
@@ -977,8 +979,7 @@
     <string name="battery_stats_wifi_running_label" msgid="3093545080361658269">"Wi-Fi"</string>
     <string name="battery_stats_wake_lock_label" msgid="1908942681902324095">"唤醒"</string>
     <string name="battery_stats_phone_signal_label" msgid="6822042940376636775">"手机信号强度"</string>
-    <!-- no translation found for battery_stats_last_duration (1535831453827905957) -->
-    <skip />
+    <string name="battery_stats_last_duration">@string/menu_stats_last_unplugged</string>
     <string name="awake" msgid="387122265874485088">"设备唤醒时间"</string>
     <string name="wifi_on_time" msgid="6310209835617490616">"Wi-Fi 开启时间"</string>
     <string name="bluetooth_on_time" msgid="6157799524996162271">"Wi-Fi 开启时间"</string>

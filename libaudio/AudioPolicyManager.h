@@ -36,6 +36,7 @@ public:
 
         virtual ~AudioPolicyManager() {}
 
+        virtual uint32_t getDeviceForStrategy(routing_strategy strategy, bool fromCache = true);
 protected:
 
         // true is current platform implements a back microphone
@@ -48,9 +49,9 @@ protected:
 
         // return appropriate device for streams handled by the specified strategy according to current
         // phone state, connected devices...
-        virtual uint32_t getDeviceForStrategy(routing_strategy strategy, bool fromCache = true);
+       
         virtual float computeVolume(int stream, int index, audio_io_handle_t output, uint32_t device);
-	virtual status_t checkAndSetVolume(int stream, int index, audio_io_handle_t output, uint32_t device, int delayMs, bool force);
+	    virtual status_t checkAndSetVolume(int stream, int index, audio_io_handle_t output, uint32_t device, int delayMs, bool force);
 };
 
 };
